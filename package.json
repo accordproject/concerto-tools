@@ -1,12 +1,12 @@
 {
   "name": "composer-concerto-tools",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "description": "Concerto Tools",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
   },
-  "main": "cli.js",
+  "main": "index.js",
   "typings": "index.d.ts",
   "scripts": {
     "prepublishOnly": "webpack --config webpack.config.js --mode production",

@@ -1,6 +1,6 @@
 {
   "name": "composer-concerto-tools",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Concerto Tools",
   "engines": {
     "node": ">=8",
@@ -59,7 +59,7 @@
     "acorn": "6.0.2",
     "axios": "0.18.0",
     "commander": "2.19.0",
-    "composer-concerto": "0.50.0",
+    "composer-concerto": "0.60.0",
     "debug": "4.1.0",
     "doctrine": "2.1.0",
     "fs-extra": "7.0.0",

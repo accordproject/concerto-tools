@@ -15,14 +15,11 @@
 'use strict';
 
 /**
- * Hyperledger-Composer module. Hyperledger-Composer is a framework for creating
- * blockchain backed digital networks and exchanging assets between participants
- * via processing transactions.
- * @module composer-common
+ * Concerto Tools module.
+ * @module concerto-tools
  */
 
 module.exports.CodeGen = require('./lib/codegen/codegen.js');
-module.exports.TypescriptVisitor = require('./lib/codegen/fromcto/typescript/typescriptvisitor');
 module.exports.Writer = require('./lib/codegen/writer.js');
 module.exports.FileWriter = require('./lib/codegen/filewriter.js');
 module.exports.version = require('./package.json');

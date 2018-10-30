@@ -657,7 +657,10 @@ describe('JSONSchema', function () {
 
         it('should return the JSON schema for a non primitive type', () => {
             let mockModelFile = sinon.createStubInstance(ModelFile);
-            mockModelFile.getType.withArgs('Crop').returns({
+            let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelFile.getModelManager.returns(mockModelManager);
+
+            mockModelManager.getType.withArgs('Crop').returns({
                 accept: () => {
                     return;
                 }
@@ -667,12 +670,12 @@ describe('JSONSchema', function () {
                 modelFile: mockModelFile
             };
 
-            let mockAccept = sinon.stub(mockModelFile.getType('Crop'), 'accept');
+            let mockAccept = sinon.stub(mockModelManager.getType('Crop'), 'accept');
             mockAccept.returns({status: 'Ploughed'});
 
             let mockField = sinon.createStubInstance(Field);
             mockField.isPrimitive.returns(false);
-            mockField.getType.returns('Crop');
+            mockField.getFullyQualifiedTypeName.returns('Crop');
 
             jsonSchemaVisit.visitField(mockField, param).should.deep.equal({status: 'Ploughed'});
 

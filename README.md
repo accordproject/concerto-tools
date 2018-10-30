@@ -1,5 +1,5 @@
 # composer-concerto-tools
-Model converters and tools for Concerto
+Model converters and tools for [Concerto](https://github.com/hyperledger/composer-concerto/) format model files.
 
 ## Install
 

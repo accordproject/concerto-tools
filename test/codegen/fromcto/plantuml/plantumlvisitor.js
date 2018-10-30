@@ -155,7 +155,7 @@ describe('PlantUMLVisitor', function () {
 
     describe('visitModelManager', () => {
 
-        it('should write to the model.uml file and call accept for each model file', () => {
+        it('should write to the model.puml file and call accept for each model file', () => {
             let param = {
                 fileWriter: mockFileWriter
             };
@@ -170,7 +170,7 @@ describe('PlantUMLVisitor', function () {
             }]);
 
             plantUMLvisitor.visitModelManager(mockModelManagerDefinition, param);
-            param.fileWriter.openFile.withArgs('model.uml').calledOnce.should.be.ok;
+            param.fileWriter.openFile.withArgs('model.puml').calledOnce.should.be.ok;
             param.fileWriter.writeLine.callCount.should.deep.equal(5);
             param.fileWriter.closeFile.calledOnce.should.be.ok;
             acceptSpy.withArgs(plantUMLvisitor, param).calledTwice.should.be.ok;

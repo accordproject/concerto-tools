@@ -54,6 +54,12 @@ describe('cicero-cli', () => {
             fs.readdirSync(dir.path).length.should.be.above(0);
             dir.cleanup();
         });
+        it('should generate a Corda model', async () => {
+            const dir = await tmp.dir({ unsafeCleanup: true});
+            await Commands.generate('Corda', models, dir.path, true);
+            fs.readdirSync(dir.path).length.should.be.above(0);
+            dir.cleanup();
+        });
         it('should generate a JSONSchema model', async () => {
             const dir = await tmp.dir({ unsafeCleanup: true});
             await Commands.generate('JSONSchema', models, dir.path, true);

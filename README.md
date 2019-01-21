@@ -36,6 +36,12 @@ node cli.js generate --ctoFiles modelfile.cto --format Typescript
 node cli.js generate --ctoFiles modelfile.cto --format Java
 ```
 
+### Corda
+
+```
+node cli.js generate --ctoFiles modelfile.cto --format Corda
+```
+
 ### JSONSchema
 
 ```

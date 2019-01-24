@@ -233,11 +233,12 @@ describe('CordaVisitor', function () {
             cordaVisit.visitEnumDeclaration(mockEnumDeclaration, param);
 
             mockStartClassFile.withArgs(mockEnumDeclaration, param).calledOnce.should.be.ok;
-            param.fileWriter.writeLine.callCount.should.deep.equal(4);
+            param.fileWriter.writeLine.callCount.should.deep.equal(5);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'import com.fasterxml.jackson.annotation.JsonIgnoreProperties;']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '@JsonIgnoreProperties({"$class"})']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public enum Bob {']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '@CordaSerializable']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'public enum Bob {']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '}']);
             mockEndClassFile.withArgs(mockEnumDeclaration, param).calledOnce.should.be.ok;
         });
     });

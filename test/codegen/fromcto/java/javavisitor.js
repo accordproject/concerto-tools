@@ -385,7 +385,7 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, `
    // the accessor for the identifying field
    public String getID() {
-      return employeeID;
+      return this.getEmployeeID();
    }
 `]);
             param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '}']);

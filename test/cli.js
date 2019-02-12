@@ -26,7 +26,7 @@ chai.use(require('chai-as-promised'));
 const Commands = require('../lib/commands');
 
 describe('cicero-cli', () => {
-    const models = [path.resolve(__dirname, 'models/dom.cto')];
+    const models = [path.resolve(__dirname, 'models/dom.cto'),path.resolve(__dirname, 'models/money.cto')];
 
     describe('#generate', () => {
 
@@ -51,12 +51,6 @@ describe('cicero-cli', () => {
         it('should generate a Java model', async () => {
             const dir = await tmp.dir({ unsafeCleanup: true});
             await Commands.generate('Java', models, dir.path, true);
-            fs.readdirSync(dir.path).length.should.be.above(0);
-            dir.cleanup();
-        });
-        it('should generate a Corda model', async () => {
-            const dir = await tmp.dir({ unsafeCleanup: true});
-            await Commands.generate('Corda', models, dir.path, true);
             fs.readdirSync(dir.path).length.should.be.above(0);
             dir.cleanup();
         });

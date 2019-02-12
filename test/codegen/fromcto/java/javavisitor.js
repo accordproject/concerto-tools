@@ -55,6 +55,16 @@ describe('JavaVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
+        it('should default to callint visitModelManager with no options', () => {
+            let thing = sinon.createStubInstance(ModelManager);
+            let mockSpecialVisit = sinon.stub(javaVisit, 'visitModelManager');
+            mockSpecialVisit.returns('Duck');
+
+            javaVisit.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
         it('should call visitModelFile for a ModelFile', () => {
             let thing = sinon.createStubInstance(ModelFile);
             let mockSpecialVisit = sinon.stub(javaVisit, 'visitModelFile');
@@ -286,7 +296,9 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'import apples;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public class Bob {']);
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
-            acceptSpy.withArgs(javaVisit, param).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
 
@@ -304,7 +316,9 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '@JsonIgnoreProperties({"$class"})']);
             param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, 'public class Bob {']);
             param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '}']);
-            acceptSpy.withArgs(javaVisit, param).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
 
@@ -319,7 +333,9 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'import apples;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public abstract class Bob {']);
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
-            acceptSpy.withArgs(javaVisit, param).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
 
@@ -334,7 +350,9 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'import apples;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public class Bob extends org.hyperledger.composer.system.Resource {']);
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
-            acceptSpy.withArgs(javaVisit, param).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
 
@@ -349,7 +367,9 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'import apples;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public class Bob extends person {']);
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
-            acceptSpy.withArgs(javaVisit, param).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
 
@@ -365,11 +385,13 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, `
    // the accessor for the identifying field
    public String getID() {
-      return employeeID;
+      return this.getEmployeeID();
    }
 `]);
             param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '}']);
-            acceptSpy.withArgs(javaVisit, param).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
     });
@@ -383,7 +405,7 @@ describe('JavaVisitor', function () {
             };
         });
 
-        it('should write a line defining a field', () => {
+        it('should default to write a line defining a field', () => {
             let mockField = sinon.createStubInstance(Field);
             mockField.isArray.returns(false);
             mockField.getName.returns('Bob');
@@ -392,7 +414,31 @@ describe('JavaVisitor', function () {
             mockJavaType.returns('JavaType');
 
             javaVisit.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public JavaType Bob;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should default to write a line defining a field and add [] if an array', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isArray.returns(true);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType[] Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should write a line defining a field', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isArray.returns(false);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitField(mockField, Object.assign({},param,{mode:'field'}));
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType Bob;').calledOnce.should.be.ok;
         });
 
         it('should write a line defining a field and add [] if an array', () => {
@@ -403,8 +449,68 @@ describe('JavaVisitor', function () {
             let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
             mockJavaType.returns('JavaType');
 
-            javaVisit.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public JavaType[] Bob;').calledOnce.should.be.ok;
+            javaVisit.visitField(mockField, Object.assign({},param,{mode:'field'}));
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType[] Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should write a line setting a field', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isArray.returns(false);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitField(mockField, Object.assign({},param,{mode:'setter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public void setBob(JavaType Bob) {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'this.Bob = Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line setting a field and add [] if an array', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isArray.returns(true);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitField(mockField, Object.assign({},param,{mode:'setter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public void setBob(JavaType[] Bob) {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'this.Bob = Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line getting a field', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isArray.returns(false);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitField(mockField, Object.assign({},param,{mode:'getter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public JavaType getBob() {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line getting a field and add [] if an array', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isArray.returns(true);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitField(mockField, Object.assign({},param,{mode:'getter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public JavaType[] getBob() {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
         });
     });
 
@@ -431,7 +537,7 @@ describe('JavaVisitor', function () {
             };
         });
 
-        it('should write a line defining a field', () => {
+        it('should default to write a line defining a field', () => {
             let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
             mockRelationship.isArray.returns(false);
             mockRelationship.getName.returns('Bob');
@@ -440,7 +546,30 @@ describe('JavaVisitor', function () {
             mockJavaType.returns('JavaType');
 
             javaVisit.visitRelationship(mockRelationship, param);
-            param.fileWriter.writeLine.withArgs(1, 'public JavaType Bob;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should default to write a line defining a field and add [] if an array', () => {
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isArray.returns(true);
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitRelationship(mockRelationship, param);
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType[] Bob;').calledOnce.should.be.ok;
+        });
+        it('should write a line defining a field', () => {
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isArray.returns(false);
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitRelationship(mockRelationship, Object.assign({},param,{mode:'field'}));
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType Bob;').calledOnce.should.be.ok;
         });
 
         it('should write a line defining a field and add [] if an array', () => {
@@ -451,8 +580,68 @@ describe('JavaVisitor', function () {
             let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
             mockJavaType.returns('JavaType');
 
-            javaVisit.visitRelationship(mockRelationship, param);
-            param.fileWriter.writeLine.withArgs(1, 'public JavaType[] Bob;').calledOnce.should.be.ok;
+            javaVisit.visitRelationship(mockRelationship, Object.assign({},param,{mode:'field'}));
+            param.fileWriter.writeLine.withArgs(1, 'private JavaType[] Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should write a line setting a field', () => {
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isArray.returns(false);
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitRelationship(mockRelationship, Object.assign({},param,{mode:'setter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public void setBob(JavaType Bob) {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'this.Bob = Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line setting a field and add [] if an array', () => {
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isArray.returns(true);
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitRelationship(mockRelationship, Object.assign({},param,{mode:'setter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public void setBob(JavaType[] Bob) {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'this.Bob = Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line getting a field', () => {
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isArray.returns(false);
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitRelationship(mockRelationship, Object.assign({},param,{mode:'getter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public JavaType getBob() {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line getting a field and add [] if an array', () => {
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isArray.returns(true);
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.getType.returns('SpecialType');
+            let mockJavaType = sinon.stub(javaVisit, 'toJavaType');
+            mockJavaType.returns('JavaType');
+
+            javaVisit.visitRelationship(mockRelationship, Object.assign({},param,{mode:'getter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public JavaType[] getBob() {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
         });
     });
 

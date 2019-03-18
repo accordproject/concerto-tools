@@ -23,7 +23,7 @@ const AbstractPlugin = require('../../../../lib/codegen/abstractplugin.js');
 
 const ClassDeclaration = require('composer-concerto').ClassDeclaration;
 const EnumDeclaration = require('composer-concerto').EnumDeclaration;
-const fileWriter = require('../../../../lib/codegen/filewriter');
+const fileWriter = require('composer-concerto').FileWriter;
 
 describe('JavaMissingPlugin', function () {
     let javaVisit;

@@ -30,7 +30,7 @@ const EnumValueDeclaration = require('composer-concerto').EnumValueDeclaration;
 const Field = require('composer-concerto').Field;
 const RelationshipDeclaration = require('composer-concerto').RelationshipDeclaration;
 const TransactionDeclaration = require('composer-concerto').TransactionDeclaration;
-const fileWriter = require('../../../../lib/codegen/filewriter');
+const fileWriter = require('composer-concerto').FileWriter;
 
 describe('PlantUMLVisitor', function () {
     let plantUMLvisitor;

@@ -20,6 +20,4 @@
  */
 
 module.exports.CodeGen = require('./lib/codegen/codegen.js');
-module.exports.Writer = require('./lib/codegen/writer.js');
-module.exports.FileWriter = require('./lib/codegen/filewriter.js');
 module.exports.version = require('./package.json');

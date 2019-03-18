@@ -27,7 +27,7 @@ const Field = require('composer-concerto').Field;
 const ModelFile = require('composer-concerto').ModelFile;
 const ModelManager = require('composer-concerto').ModelManager;
 const RelationshipDeclaration = require('composer-concerto').RelationshipDeclaration;
-const fileWriter = require('../../../../lib/codegen/filewriter');
+const fileWriter = require('composer-concerto').FileWriter;
 
 describe('JavaVisitor', function () {
     let javaVisit;

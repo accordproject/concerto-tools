@@ -14,10 +14,10 @@
 
 'use strict';
 
-const FileWriter = require('../../../../lib/codegen/filewriter');
 const fs = require('fs');
-const LoopbackVisitor = require('../../../../lib/codegen/fromcto/loopback/loopbackvisitor');
+const FileWriter = require('composer-concerto').FileWriter;
 const ModelManager = require('composer-concerto').ModelManager;
+const LoopbackVisitor = require('../../../../lib/codegen/fromcto/loopback/loopbackvisitor');
 const path = require('path');
 
 require('chai').should();

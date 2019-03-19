@@ -30,7 +30,7 @@ const ModelFile = require('composer-concerto').ModelFile;
 const ModelManager = require('composer-concerto').ModelManager;
 const RelationshipDeclaration = require('composer-concerto').RelationshipDeclaration;
 const TransactionDeclaration = require('composer-concerto').TransactionDeclaration;
-const fileWriter = require('../../../../lib/codegen/filewriter');
+const fileWriter = require('composer-concerto').FileWriter;
 
 describe('JSONSchema', function () {
     let jsonSchemaVisit;

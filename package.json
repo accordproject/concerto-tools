@@ -59,7 +59,8 @@
   "dependencies": {
     "composer-concerto": "0.70.2",
     "debug": "4.1.0",
-    "mkdirp": "0.5.1"
+    "mkdirp": "0.5.1",
+    "yargs": "13.2.2"
   },
   "license-check-and-add-config": {
     "folder": "./lib",

@@ -18,8 +18,13 @@
 
 const Commands = require('./lib/commands');
 
+console.log('yargs');
+
 require('yargs')
+    .scriptName('cli')
+    .usage('$0 <cmd> [args]')
     .command('generate', 'generate code from model files', (yargs) => {
+
         yargs.option('ctoFiles', {
             describe: 'array of CTO files',
             type: 'string',
@@ -46,11 +51,12 @@ require('yargs')
                 console.log(result);
             })
             .catch((err) => {
-                console.log(err.message + ' ' + JSON.stringify(err));
+                console.log(err.message + ' ' + err);
             });
     })
     .option('verbose', {
         alias: 'v',
         default: false
     })
+    .help()
     .argv;

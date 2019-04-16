@@ -1,6 +1,6 @@
 {
   "name": "composer-concerto-tools",
-  "version": "0.60.2",
+  "version": "0.60.3",
   "description": "Concerto Tools",
   "engines": {
     "node": ">=8",

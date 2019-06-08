@@ -1,6 +1,6 @@
 {
   "name": "composer-concerto-tools",
-  "version": "0.60.3",
+  "version": "0.60.4",
   "description": "Concerto Tools",
   "engines": {
     "node": ">=8",
@@ -40,7 +40,7 @@
     "chai-as-promised": "7.1.1",
     "chai-things": "0.2.0",
     "eslint": "5.8.0",
-    "jsdoc": "3.5.5",
+    "jsdoc": "3.6.2",
     "license-check-and-add": "2.3.6",
     "mocha": "5.2.0",
     "mockery": "2.1.0",
@@ -57,7 +57,7 @@
     "webpack-cli": "3.1.2"
   },
   "dependencies": {
-    "composer-concerto": "0.70.2",
+    "composer-concerto": "0.70.4",
     "debug": "4.1.0",
     "mkdirp": "0.5.1",
     "yargs": "13.2.2"

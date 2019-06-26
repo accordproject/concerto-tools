@@ -1,6 +1,6 @@
 {
   "name": "composer-concerto-tools",
-  "version": "0.60.5",
+  "version": "0.61.0",
   "description": "Concerto Tools",
   "engines": {
     "node": ">=8",
@@ -57,7 +57,7 @@
     "webpack-cli": "3.1.2"
   },
   "dependencies": {
-    "composer-concerto": "0.70.5",
+    "composer-concerto": "0.71.3",
     "debug": "4.1.0",
     "mkdirp": "0.5.1",
     "yargs": "13.2.2"

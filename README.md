@@ -1,10 +1,10 @@
-# composer-concerto-tools
-Model converters and tools for [Concerto](https://github.com/hyperledger/composer-concerto/) format model files.
+# Concerto Tools
+Model converters and tools for [Concerto](https://github.com/accordproject/concerto/) format model files.
 
 ## Install
 
 ```
-npm install -g composer-concerto-tools
+npm install -g @accordproject/concerto-tools
 ```
 
 ## Code Generation

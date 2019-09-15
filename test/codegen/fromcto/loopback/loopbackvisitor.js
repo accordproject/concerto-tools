@@ -20,19 +20,19 @@ const sinon = require('sinon');
 
 let LoopbackVisitor= require('../../../../lib/codegen/fromcto/loopback/loopbackvisitor.js');
 
-const AssetDeclaration = require('composer-concerto').AssetDeclaration;
-const ParticipantDeclaration = require('composer-concerto').ParticipantDeclaration;
-const EventDeclaration = require('composer-concerto').EventDeclaration;
-const ClassDeclaration = require('composer-concerto').ClassDeclaration;
-const EnumDeclaration = require('composer-concerto').EnumDeclaration;
-const ConceptDeclaration = require('composer-concerto').ConceptDeclaration;
-const EnumValueDeclaration = require('composer-concerto').EnumValueDeclaration;
-const Field = require('composer-concerto').Field;
-const ModelFile = require('composer-concerto').ModelFile;
-const ModelManager = require('composer-concerto').ModelManager;
-const RelationshipDeclaration = require('composer-concerto').RelationshipDeclaration;
-const TransactionDeclaration = require('composer-concerto').TransactionDeclaration;
-const fileWriter = require('composer-concerto').FileWriter;
+const AssetDeclaration = require('@accordproject/concerto').AssetDeclaration;
+const ParticipantDeclaration = require('@accordproject/concerto').ParticipantDeclaration;
+const EventDeclaration = require('@accordproject/concerto').EventDeclaration;
+const ClassDeclaration = require('@accordproject/concerto').ClassDeclaration;
+const EnumDeclaration = require('@accordproject/concerto').EnumDeclaration;
+const ConceptDeclaration = require('@accordproject/concerto').ConceptDeclaration;
+const EnumValueDeclaration = require('@accordproject/concerto').EnumValueDeclaration;
+const Field = require('@accordproject/concerto').Field;
+const ModelFile = require('@accordproject/concerto').ModelFile;
+const ModelManager = require('@accordproject/concerto').ModelManager;
+const RelationshipDeclaration = require('@accordproject/concerto').RelationshipDeclaration;
+const TransactionDeclaration = require('@accordproject/concerto').TransactionDeclaration;
+const fileWriter = require('@accordproject/concerto').FileWriter;
 
 describe('LoopbackVisitor', () => {
     let loopbackVisit;
@@ -52,6 +52,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitModelManager for a ModelManager', () => {
             let thing = sinon.createStubInstance(ModelManager);
+            thing._isModelManager = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitModelManager');
             mockSpecialVisit.returns('Duck');
 
@@ -62,6 +63,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitModelFile for a ModelFile', () => {
             let thing = sinon.createStubInstance(ModelFile);
+            thing._isModelFile = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitModelFile');
             mockSpecialVisit.returns('Duck');
 
@@ -72,6 +74,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitAssetDeclaration for a AssetDeclaration', () => {
             let thing = sinon.createStubInstance(AssetDeclaration);
+            thing._isAssetDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitAssetDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -82,6 +85,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitParticipantDeclaration for a ParticipantDeclaration', () => {
             let thing = sinon.createStubInstance(ParticipantDeclaration);
+            thing._isParticipantDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitParticipantDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -92,6 +96,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitConceptDeclaration for a ConceptDeclaration', () => {
             let thing = sinon.createStubInstance(ConceptDeclaration);
+            thing._isConceptDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitConceptDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -102,6 +107,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitTransactionDeclaration for a TransactionDeclaration', () => {
             let thing = sinon.createStubInstance(TransactionDeclaration);
+            thing._isTransactionDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitTransactionDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -112,6 +118,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitEventDeclaration for a EventDeclaration', () => {
             let thing = sinon.createStubInstance(EventDeclaration);
+            thing._isEventDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitEventDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -122,6 +129,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitEnumDeclaration for a EnumDeclaration', () => {
             let thing = sinon.createStubInstance(EnumDeclaration);
+            thing._isEnumDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitEnumDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -132,6 +140,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitField for a Field', () => {
             let thing = sinon.createStubInstance(Field);
+            thing._isField = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitField');
             mockSpecialVisit.returns('Duck');
 
@@ -142,6 +151,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitRelationshipDeclaration for a RelationshipDeclaration', () => {
             let thing = sinon.createStubInstance(RelationshipDeclaration);
+            thing._isRelationshipDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitRelationshipDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -152,6 +162,7 @@ describe('LoopbackVisitor', () => {
 
         it('should call visitEnumValueDeclaration for a EnumValueDeclaration', () => {
             let thing = sinon.createStubInstance(EnumValueDeclaration);
+            thing._isEnumValueDeclaration = true;
             let mockSpecialVisit = sinon.stub(loopbackVisit, 'visitEnumValueDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -170,15 +181,18 @@ describe('LoopbackVisitor', () => {
     });
 
     describe('visitModelManager', () => {
-        it('should return a value of the concatted output of each modelFiles accept', () => {
+        it('should return a value of the concatenated output of each modelFiles accept', () => {
             let param = {};
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.accept.returns(['Duck', 'Duck']);
             let mockModelFile2 = sinon.createStubInstance(ModelFile);
+            mockModelFile2._isModelFile = true;
             mockModelFile2.accept.returns(['Duck', 'Goose']);
 
             let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager._isModelManager = true;
             mockModelManager.getModelFiles.returns([mockModelFile, mockModelFile2]);
 
             loopbackVisit.visitModelManager(mockModelManager, param).should.deep.equal(['Duck', 'Duck', 'Duck', 'Goose']);
@@ -195,18 +209,23 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.accept.returns('Duck');
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.accept.returns('Duck');
 
             let mockParticipantDeclaration = sinon.createStubInstance(ParticipantDeclaration);
+            mockParticipantDeclaration._isParticipantDeclaration = true;
             mockParticipantDeclaration.accept.returns('Duck');
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.accept.returns('Goose');
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getNamespace.returns;
             mockModelFile.getAssetDeclarations.returns([mockAssetDeclaration]);
             mockModelFile.getTransactionDeclarations.returns([mockTransactionDeclaration]);
@@ -227,6 +246,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockAssetDeclaration.getName.returns('Bob');
 
@@ -244,6 +264,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockAssetDeclaration.getName.returns('Bob');
 
@@ -280,6 +301,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockAssetDeclaration.getName.returns('Bob');
 
@@ -318,6 +340,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockParticipantDeclaration = sinon.createStubInstance(ParticipantDeclaration);
+            mockParticipantDeclaration._isParticipantDeclaration = true;
             mockParticipantDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockParticipantDeclaration.getName.returns('Bob');
 
@@ -335,6 +358,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockParticipantDeclaration = sinon.createStubInstance(ParticipantDeclaration);
+            mockParticipantDeclaration._isParticipantDeclaration = true;
             mockParticipantDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockParticipantDeclaration.getName.returns('Bob');
 
@@ -371,6 +395,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockParticipantDeclaration = sinon.createStubInstance(ParticipantDeclaration);
+            mockParticipantDeclaration._isParticipantDeclaration = true;
             mockParticipantDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockParticipantDeclaration.getName.returns('Bob');
 
@@ -409,6 +434,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockConceptDeclaration.getName.returns('Bob');
 
@@ -426,6 +452,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockConceptDeclaration.getName.returns('Bob');
 
@@ -461,6 +488,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockConceptDeclaration.getName.returns('Bob');
 
@@ -498,6 +526,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockTransactionDeclaration.getName.returns('Bob');
 
@@ -515,6 +544,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockTransactionDeclaration.getName.returns('Bob');
 
@@ -551,6 +581,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.getFullyQualifiedName.returns('org.acme.Person.Bob');
             mockTransactionDeclaration.getName.returns('Bob');
 
@@ -587,6 +618,7 @@ describe('LoopbackVisitor', () => {
     describe('visitEventDeclaration', () => {
         it('should return null', () => {
             let mockEventDeclaration = sinon.createStubInstance(EventDeclaration);
+            mockEventDeclaration._isEventDeclaration = true;
             mockEventDeclaration.getName.returns('Bob');
 
             should.equal(loopbackVisit.visitEventDeclaration(mockEventDeclaration, {}), null);
@@ -602,6 +634,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -652,6 +685,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -706,6 +740,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getNamespace.returns('org.acme');
@@ -771,6 +806,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -834,6 +870,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -892,6 +929,7 @@ describe('LoopbackVisitor', () => {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -952,11 +990,12 @@ describe('LoopbackVisitor', () => {
                 }
             };
 
-            let mockClassDeclaration = sinon.createStubInstance(TransactionDeclaration);
-            mockClassDeclaration.getName.returns('Person');
-            mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
-            mockClassDeclaration.getIdentifierFieldName.returns('Bob');
-            mockClassDeclaration.getProperties.returns([
+            let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
+            mockTransactionDeclaration.getName.returns('Person');
+            mockTransactionDeclaration.getFullyQualifiedName.returns('org.acme.Person');
+            mockTransactionDeclaration.getIdentifierFieldName.returns('Bob');
+            mockTransactionDeclaration.getProperties.returns([
                 {
                     getName: () => {
                         return 'Bob';
@@ -1024,7 +1063,7 @@ describe('LoopbackVisitor', () => {
                 forceId: true,
 
             };
-            loopbackVisit.visitClassDeclarationCommon(mockClassDeclaration, param, jsonSchema).should.deep.equal(expectedResult);
+            loopbackVisit.visitClassDeclarationCommon(mockTransactionDeclaration, param, jsonSchema).should.deep.equal(expectedResult);
         });
     });
 
@@ -1063,6 +1102,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
@@ -1083,6 +1123,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Farmer');
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
@@ -1112,11 +1153,13 @@ describe('LoopbackVisitor', () => {
             });
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getType.withArgs('Acreage').returns({
                 accept: mockAccept
             });
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.isTypeEnum.returns(true);
             mockField.getType.returns('Acreage');
@@ -1142,11 +1185,13 @@ describe('LoopbackVisitor', () => {
             });
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getType.withArgs('Acreage').returns({
                 accept: mockAccept
             });
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.isTypeEnum.returns(true);
             mockField.getType.returns('Acreage');
@@ -1171,11 +1216,13 @@ describe('LoopbackVisitor', () => {
             let mockAccept = sinon.stub(ModelFile, 'accept');
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getType.withArgs('Acreage').returns({
                 accept: mockAccept
             });
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.getType.returns('Acreage');
             mockField.getFullyQualifiedTypeName.returns('org.acme.Horse.Acreage');
@@ -1200,11 +1247,13 @@ describe('LoopbackVisitor', () => {
             let mockAccept = sinon.stub(ModelFile, 'accept');
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getType.withArgs('Acreage').returns({
                 accept: mockAccept
             });
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.getType.returns('Acreage');
             mockField.getFullyQualifiedTypeName.returns('org.acme.Horse.Acreage');
@@ -1233,11 +1282,13 @@ describe('LoopbackVisitor', () => {
             let mockAccept = sinon.stub(ModelFile, 'accept');
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getType.withArgs('Acreage').returns({
                 accept: mockAccept
             });
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.getType.returns('Acreage');
             mockField.getFullyQualifiedTypeName.returns('org.acme.Horse.Acreage');
@@ -1260,6 +1311,7 @@ describe('LoopbackVisitor', () => {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Horse');
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
@@ -1287,6 +1339,7 @@ describe('LoopbackVisitor', () => {
             mockAccept.withArgs(loopbackVisit, param).returns('Duck');
 
             let mockEnumDecl = sinon.createStubInstance(EnumDeclaration);
+            mockEnumDecl._isEnumDeclaration = true;
             mockEnumDecl.getProperties.returns([
                 {
                     accept: mockAccept
@@ -1306,6 +1359,7 @@ describe('LoopbackVisitor', () => {
     describe('visitEnumValueDeclaration', () => {
         it('should return the enumValueDeclaration\'s name', () => {
             let mockEnumValDecl = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValDecl._isEnumValueDeclaration = true;
             mockEnumValDecl.getName.returns('Bob');
 
             loopbackVisit.visitEnumValueDeclaration(mockEnumValDecl, {}).should.deep.equal('Bob');
@@ -1315,6 +1369,7 @@ describe('LoopbackVisitor', () => {
     describe('visitRelationshipDeclaration', () => {
         it('should return a JSONSchema for a relationship', () => {
             let mockRelationshipDeclaration = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationshipDeclaration._isRelationshipDeclaration = true;
             mockRelationshipDeclaration.getName.returns('Bob');
             mockRelationshipDeclaration.isOptional.returns(false);
 
@@ -1327,6 +1382,7 @@ describe('LoopbackVisitor', () => {
 
         it('should return a JSONSchema for a relationship that is an array', () => {
             let mockRelationshipDeclaration = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationshipDeclaration._isRelationshipDeclaration = true;
             mockRelationshipDeclaration.getName.returns('Bob');
             mockRelationshipDeclaration.isOptional.returns(false);
             mockRelationshipDeclaration.isArray.returns(true);

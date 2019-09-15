@@ -21,9 +21,9 @@ const sinon = require('sinon');
 const JavaVisitor = require('../../../../lib/codegen/fromcto/java/javavisitor.js');
 const AbstractPlugin = require('../../../../lib/codegen/abstractplugin.js');
 
-const ClassDeclaration = require('composer-concerto').ClassDeclaration;
-const EnumDeclaration = require('composer-concerto').EnumDeclaration;
-const fileWriter = require('composer-concerto').FileWriter;
+const ClassDeclaration = require('@accordproject/concerto').ClassDeclaration;
+const EnumDeclaration = require('@accordproject/concerto').EnumDeclaration;
+const fileWriter = require('@accordproject/concerto').FileWriter;
 
 describe('JavaMissingPlugin', function () {
     let javaVisit;
@@ -41,6 +41,7 @@ describe('JavaMissingPlugin', function () {
             };
 
             let mockClass = sinon.createStubInstance(ClassDeclaration);
+            mockClass._isClassDeclaration = true;
             mockClass.getModelFile.returns({
                 getNamespace: () => {
                     return 'org.acme.people';
@@ -64,6 +65,7 @@ describe('JavaMissingPlugin', function () {
             };
 
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
+            mockEnumDeclaration._isEnumDeclaration = true;
             mockEnumDeclaration.getName.returns('Bob');
             mockEnumDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy
@@ -91,6 +93,7 @@ describe('JavaMissingPlugin', function () {
             };
 
             mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Bob');
             mockClassDeclaration.getModelFile.returns({
                 getImports: () => {

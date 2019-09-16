@@ -20,14 +20,14 @@ const sinon = require('sinon');
 
 const TypescriptVisitor = require('../../../../lib/codegen/fromcto/typescript/typescriptvisitor.js');
 
-const ClassDeclaration = require('composer-concerto').ClassDeclaration;
-const EnumDeclaration = require('composer-concerto').EnumDeclaration;
-const EnumValueDeclaration = require('composer-concerto').EnumValueDeclaration;
-const Field = require('composer-concerto').Field;
-const ModelFile = require('composer-concerto').ModelFile;
-const ModelManager = require('composer-concerto').ModelManager;
-const RelationshipDeclaration = require('composer-concerto').RelationshipDeclaration;
-const FileWriter = require('composer-concerto').FileWriter;
+const ClassDeclaration = require('@accordproject/concerto').ClassDeclaration;
+const EnumDeclaration = require('@accordproject/concerto').EnumDeclaration;
+const EnumValueDeclaration = require('@accordproject/concerto').EnumValueDeclaration;
+const Field = require('@accordproject/concerto').Field;
+const ModelFile = require('@accordproject/concerto').ModelFile;
+const ModelManager = require('@accordproject/concerto').ModelManager;
+const RelationshipDeclaration = require('@accordproject/concerto').RelationshipDeclaration;
+const FileWriter = require('@accordproject/concerto').FileWriter;
 
 describe('TypescriptVisitor', function () {
     let typescriptVisitor;
@@ -47,6 +47,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitModelManager for a ModelManager', () => {
             let thing = sinon.createStubInstance(ModelManager);
+            thing._isModelManager = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitModelManager');
             mockSpecialVisit.returns('Duck');
 
@@ -57,6 +58,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitModelFile for a ModelFile', () => {
             let thing = sinon.createStubInstance(ModelFile);
+            thing._isModelFile = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitModelFile');
             mockSpecialVisit.returns('Duck');
 
@@ -67,6 +69,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitEnumDeclaration for a EnumDeclaration', () => {
             let thing = sinon.createStubInstance(EnumDeclaration);
+            thing._isEnumDeclaration = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitEnumDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -77,6 +80,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitClassDeclaration for a ClassDeclaration', () => {
             let thing = sinon.createStubInstance(ClassDeclaration);
+            thing._isClassDeclaration = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitClassDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -87,6 +91,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitField for a Field', () => {
             let thing = sinon.createStubInstance(Field);
+            thing._isField = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitField');
             mockSpecialVisit.returns('Duck');
 
@@ -97,6 +102,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitRelationship for a RelationshipDeclaration', () => {
             let thing = sinon.createStubInstance(RelationshipDeclaration);
+            thing._isRelationshipDeclaration = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitRelationship');
             mockSpecialVisit.returns('Duck');
 
@@ -107,6 +113,7 @@ describe('TypescriptVisitor', function () {
 
         it('should return visitEnumValueDeclaration for a EnumValueDeclaration', () => {
             let thing = sinon.createStubInstance(EnumValueDeclaration);
+            thing._isEnumValueDeclaration = true;
             let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitEnumValueDeclaration');
             mockSpecialVisit.returns('Goose');
 
@@ -131,6 +138,7 @@ describe('TypescriptVisitor', function () {
             let param = {};
 
             let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager._isModelManager = true;
             mockModelManager.getModelFiles.returns([{
                 accept: acceptSpy
             },
@@ -155,6 +163,7 @@ describe('TypescriptVisitor', function () {
         it('should write lines for the imports that are not in own namespace ignoring primitives', () => {
             let acceptSpy = sinon.spy();
             let mockEnum = sinon.createStubInstance(EnumDeclaration);
+            mockEnum._isEnumDeclaration = true;
             mockEnum.isEnum.returns(true);
             mockEnum.accept = acceptSpy;
 
@@ -186,10 +195,12 @@ describe('TypescriptVisitor', function () {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getProperties.returns([property1, property2, property3]);
             mockClassDeclaration.accept = acceptSpy;
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.isSystemModelFile.returns(true);
             mockModelFile.getNamespace.returns('org.acme.Person');
             mockModelFile.getAllDeclarations.returns([
@@ -217,6 +228,7 @@ describe('TypescriptVisitor', function () {
         it('should write lines for the imports that are not in own namespace ignoring primitives and write lines for importing system type', () => {
             let acceptSpy = sinon.spy();
             let mockEnum = sinon.createStubInstance(EnumDeclaration);
+            mockEnum._isEnumDeclaration = true;
             mockEnum.isEnum.returns(true);
             mockEnum.accept = acceptSpy;
 
@@ -248,10 +260,12 @@ describe('TypescriptVisitor', function () {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getProperties.returns([property1, property2, property3]);
             mockClassDeclaration.accept = acceptSpy;
 
             let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager._isModelManager = true;
             mockModelManager.getSystemTypes.returns([{
                 getName: () => {
                     return 'Bob';
@@ -264,6 +278,7 @@ describe('TypescriptVisitor', function () {
             }]);
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.isSystemModelFile.returns(false);
             mockModelFile.getNamespace.returns('org.acme.Person');
             mockModelFile.getAllDeclarations.returns([
@@ -301,6 +316,7 @@ describe('TypescriptVisitor', function () {
             };
 
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
+            mockEnumDeclaration._isEnumDeclaration = true;
             mockEnumDeclaration.getName.returns('Bob');
             mockEnumDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy
@@ -330,6 +346,7 @@ describe('TypescriptVisitor', function () {
             let acceptSpy = sinon.spy();
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy
             },
@@ -349,6 +366,7 @@ describe('TypescriptVisitor', function () {
             let acceptSpy = sinon.spy();
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy
             },
@@ -377,6 +395,7 @@ describe('TypescriptVisitor', function () {
         });
         it('should write a line for field name and type', () => {
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Bob');
             mockField.getType.returns('Person');
 
@@ -390,6 +409,7 @@ describe('TypescriptVisitor', function () {
 
         it('should write a line for field name and type thats an array', () => {
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.getName.returns('Bob');
             mockField.getType.returns('Person');
             mockField.isArray.returns(true);
@@ -410,6 +430,7 @@ describe('TypescriptVisitor', function () {
             };
 
             let mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValueDeclaration._isEnumValueDeclaration = true;
             mockEnumValueDeclaration.getName.returns('Bob');
 
             typescriptVisitor.visitEnumValueDeclaration(mockEnumValueDeclaration, param);
@@ -427,6 +448,7 @@ describe('TypescriptVisitor', function () {
         });
         it('should write a line for field name and type', () => {
             let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship._isRelationshipDeclaration = true;
             mockRelationship.getName.returns('Bob');
             mockRelationship.getType.returns('Person');
 
@@ -439,15 +461,16 @@ describe('TypescriptVisitor', function () {
         });
 
         it('should write a line for field name and type thats an array', () => {
-            let mockRelationship = sinon.createStubInstance(Field);
-            mockRelationship.getName.returns('Bob');
-            mockRelationship.getType.returns('Person');
-            mockRelationship.isArray.returns(true);
+            let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('Person');
+            mockField.isArray.returns(true);
 
             let mockToType = sinon.stub(typescriptVisitor, 'toTsType');
             mockToType.withArgs('Person').returns('Human');
 
-            typescriptVisitor.visitRelationship(mockRelationship, param);
+            typescriptVisitor.visitRelationship(mockField, param);
 
             param.fileWriter.writeLine.withArgs(2, 'Bob: Human[];').calledOnce.should.be.ok;
         });

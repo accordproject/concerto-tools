@@ -20,17 +20,17 @@ const sinon = require('sinon');
 
 const JSONSchemaVisitor = require('../../../../lib/codegen/fromcto/jsonschema/jsonschemavisitor.js');
 
-const AssetDeclaration = require('composer-concerto').AssetDeclaration;
-const ClassDeclaration = require('composer-concerto').ClassDeclaration;
-const EnumDeclaration = require('composer-concerto').EnumDeclaration;
-const ConceptDeclaration = require('composer-concerto').ConceptDeclaration;
-const EnumValueDeclaration = require('composer-concerto').EnumValueDeclaration;
-const Field = require('composer-concerto').Field;
-const ModelFile = require('composer-concerto').ModelFile;
-const ModelManager = require('composer-concerto').ModelManager;
-const RelationshipDeclaration = require('composer-concerto').RelationshipDeclaration;
-const TransactionDeclaration = require('composer-concerto').TransactionDeclaration;
-const fileWriter = require('composer-concerto').FileWriter;
+const AssetDeclaration = require('@accordproject/concerto').AssetDeclaration;
+const ClassDeclaration = require('@accordproject/concerto').ClassDeclaration;
+const EnumDeclaration = require('@accordproject/concerto').EnumDeclaration;
+const ConceptDeclaration = require('@accordproject/concerto').ConceptDeclaration;
+const EnumValueDeclaration = require('@accordproject/concerto').EnumValueDeclaration;
+const Field = require('@accordproject/concerto').Field;
+const ModelFile = require('@accordproject/concerto').ModelFile;
+const ModelManager = require('@accordproject/concerto').ModelManager;
+const RelationshipDeclaration = require('@accordproject/concerto').RelationshipDeclaration;
+const TransactionDeclaration = require('@accordproject/concerto').TransactionDeclaration;
+const fileWriter = require('@accordproject/concerto').FileWriter;
 
 describe('JSONSchema', function () {
     let jsonSchemaVisit;
@@ -50,6 +50,7 @@ describe('JSONSchema', function () {
 
         it('should call visitModelManager for a ModelManager', () => {
             let thing = sinon.createStubInstance(ModelManager);
+            thing._isModelManager = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitModelManager');
             mockSpecialVisit.returns('Duck');
 
@@ -60,6 +61,7 @@ describe('JSONSchema', function () {
 
         it('should call visitModelFile for a ModelFile', () => {
             let thing = sinon.createStubInstance(ModelFile);
+            thing._isModelFile = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitModelFile');
             mockSpecialVisit.returns('Duck');
 
@@ -70,6 +72,7 @@ describe('JSONSchema', function () {
 
         it('should call visitAssetDeclaration for a AssetDeclaration', () => {
             let thing = sinon.createStubInstance(AssetDeclaration);
+            thing._isAssetDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitAssetDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -80,6 +83,7 @@ describe('JSONSchema', function () {
 
         it('should call visitTransactionDeclaration for a TransactionDeclaration', () => {
             let thing = sinon.createStubInstance(TransactionDeclaration);
+            thing._isTransactionDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitTransactionDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -90,6 +94,7 @@ describe('JSONSchema', function () {
 
         it('should call visitEnumDeclaration for a EnumDeclaration', () => {
             let thing = sinon.createStubInstance(EnumDeclaration);
+            thing._isEnumDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitEnumDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -100,6 +105,7 @@ describe('JSONSchema', function () {
 
         it('should call visitConceptDeclaration for a ConceptDeclaration', () => {
             let thing = sinon.createStubInstance(ConceptDeclaration);
+            thing._isConceptDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitConceptDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -110,6 +116,7 @@ describe('JSONSchema', function () {
 
         it('should call visitClassDeclaration for a ClassDeclaration', () => {
             let thing = sinon.createStubInstance(ClassDeclaration);
+            thing._isClassDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitClassDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -120,6 +127,7 @@ describe('JSONSchema', function () {
 
         it('should call visitField for a Field', () => {
             let thing = sinon.createStubInstance(Field);
+            thing._isField = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitField');
             mockSpecialVisit.returns('Duck');
 
@@ -130,6 +138,7 @@ describe('JSONSchema', function () {
 
         it('should call visitRelationshipDeclaration for a RelationshipDeclaration', () => {
             let thing = sinon.createStubInstance(RelationshipDeclaration);
+            thing._isRelationshipDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitRelationshipDeclaration');
             mockSpecialVisit.returns('Duck');
 
@@ -140,6 +149,7 @@ describe('JSONSchema', function () {
 
         it('should call visitEnumValueDeclaration for a EnumValueDeclaration', () => {
             let thing = sinon.createStubInstance(EnumValueDeclaration);
+            thing._isEnumValueDeclaration = true;
             let mockSpecialVisit = sinon.stub(jsonSchemaVisit, 'visitEnumValueDeclaration');
             mockSpecialVisit.returns('Goose');
 
@@ -162,16 +172,19 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.accept.returns(['Duck', 'Duck']);
             let mockModelFile2 = sinon.createStubInstance(ModelFile);
+            mockModelFile2._isModelFile = true;
             mockModelFile2.accept.returns(['Duck', 'Goose']);
 
             let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager._isModelManager = true;
             mockModelManager.getModelFiles.returns([mockModelFile, mockModelFile2]);
 
             jsonSchemaVisit.visitModelManager(mockModelManager, param).should.deep.equal(['Duck', 'Duck', 'Duck', 'Goose']);
-            mockModelFile.accept.withArgs(mockModelManager, param).calledOnce.should.be.ok;
-            mockModelFile2.accept.withArgs(mockModelManager, param).calledOnce.should.be.ok;
+            mockModelFile.accept.withArgs(jsonSchemaVisit, param).calledOnce.should.be.ok;
+            mockModelFile2.accept.withArgs(jsonSchemaVisit, param).calledOnce.should.be.ok;
             param.should.deep.equal({
                 modelManager: mockModelManager
             });
@@ -183,27 +196,34 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.accept.returns('Duck');
             mockAssetDeclaration.isAbstract.returns(false);
             let mockAssetDeclarationAbstract = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclarationAbstract._isAssetDeclaration = true;
             mockAssetDeclarationAbstract.accept.returns('Fish');
             mockAssetDeclarationAbstract.isAbstract.returns(true);
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.accept.returns('Duck');
             mockTransactionDeclaration.isAbstract.returns(false);
             let mockTransactionDeclarationAbstract = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclarationAbstract._isTransactionDeclaration = true;
             mockTransactionDeclarationAbstract.accept.returns('Fish');
             mockTransactionDeclarationAbstract.isAbstract.returns(true);
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.accept.returns('Goose');
             mockConceptDeclaration.isAbstract.returns(false);
             let mockConceptDeclarationAbstract = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclarationAbstract._isConceptDeclaration = true;
             mockConceptDeclarationAbstract.accept.returns('Fish');
             mockConceptDeclarationAbstract.isAbstract.returns(true);
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             mockModelFile.getNamespace.returns;
             mockModelFile.getAssetDeclarations.returns([mockAssetDeclaration, mockAssetDeclarationAbstract]);
             mockModelFile.getTransactionDeclarations.returns([mockTransactionDeclaration, mockTransactionDeclarationAbstract]);
@@ -225,6 +245,7 @@ describe('JSONSchema', function () {
             };
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -239,6 +260,7 @@ describe('JSONSchema', function () {
             };
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
+            mockAssetDeclaration._isAssetDeclaration = true;
             mockAssetDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -260,6 +282,7 @@ describe('JSONSchema', function () {
             };
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -274,6 +297,7 @@ describe('JSONSchema', function () {
             };
 
             let mockTransactionDeclaration = sinon.createStubInstance(TransactionDeclaration);
+            mockTransactionDeclaration._isTransactionDeclaration = true;
             mockTransactionDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -295,6 +319,7 @@ describe('JSONSchema', function () {
             };
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -309,6 +334,7 @@ describe('JSONSchema', function () {
             };
 
             let mockConceptDeclaration = sinon.createStubInstance(ConceptDeclaration);
+            mockConceptDeclaration._isConceptDeclaration = true;
             mockConceptDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -328,6 +354,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Bob');
 
             let mockVisitClassDeclarationCommon = sinon.stub(jsonSchemaVisit, 'visitClassDeclarationCommon');
@@ -346,6 +373,7 @@ describe('JSONSchema', function () {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -397,6 +425,7 @@ describe('JSONSchema', function () {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -452,6 +481,7 @@ describe('JSONSchema', function () {
             };
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration._isClassDeclaration = true;
             mockClassDeclaration.getName.returns('Person');
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getProperties.returns([
@@ -511,6 +541,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
             mockField.getName.returns('Farmer\'s');
@@ -529,6 +560,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('Double');
             mockField.getName.returns('Farmer\'s');
@@ -547,6 +579,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('Integer');
             mockField.getName.returns('Farmer\'s');
@@ -565,6 +598,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('Long');
             mockField.getName.returns('Farmer\'s');
@@ -583,6 +617,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('DateTime');
             mockField.getName.returns('Farmer\'s');
@@ -602,6 +637,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('Boolean');
             mockField.getName.returns('Farmer\'s');
@@ -620,6 +656,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
             mockField.getName.returns('Farmer\'s');
@@ -640,6 +677,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
             mockField.getName.returns('Earth');
@@ -657,6 +695,7 @@ describe('JSONSchema', function () {
 
         it('should return the JSON schema for a non primitive type', () => {
             let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile._isModelFile = true;
             let mockModelManager = sinon.createStubInstance(ModelManager);
             mockModelFile.getModelManager.returns(mockModelManager);
 
@@ -674,6 +713,7 @@ describe('JSONSchema', function () {
             mockAccept.returns({status: 'Ploughed'});
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(false);
             mockField.getFullyQualifiedTypeName.returns('Crop');
 
@@ -685,6 +725,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockField = sinon.createStubInstance(Field);
+            mockField._isField = true;
             mockField.isPrimitive.returns(true);
             mockField.getType.returns('String');
             mockField.getName.returns('Farmer\'s');
@@ -709,6 +750,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
+            mockEnumDeclaration._isEnumDeclaration = true;
             mockEnumDeclaration.getProperties.returns([{
                 accept: () => {
                     return 'Rabbit';
@@ -731,6 +773,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValueDeclaration._isEnumValueDeclaration = true;
             mockEnumValueDeclaration.getName.returns('Bob');
 
             jsonSchemaVisit.visitEnumValueDeclaration(mockEnumValueDeclaration, param).should.deep.equal('Bob');
@@ -742,6 +785,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockRelationshipDeclaration = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationshipDeclaration._isRelationshipDeclaration = true;
             mockRelationshipDeclaration.getName.returns('Bob');
             mockRelationshipDeclaration.getFullyQualifiedTypeName.returns('org.acme.Person');
             mockRelationshipDeclaration.isArray.returns(false);
@@ -756,6 +800,7 @@ describe('JSONSchema', function () {
             let param = {};
 
             let mockRelationshipDeclaration = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationshipDeclaration._isRelationshipDeclaration = true;
             mockRelationshipDeclaration.getName.returns('Bob');
             mockRelationshipDeclaration.getFullyQualifiedTypeName.returns('org.acme.Person');
             mockRelationshipDeclaration.isArray.returns(true);

@@ -1,7 +1,7 @@
 {
-  "name": "composer-concerto-tools",
+  "name": "@accordproject/concerto-tools",
   "version": "0.61.1",
-  "description": "Concerto Tools",
+  "description": "Tools for the Concerto Modeling Language",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -19,19 +19,22 @@
     "test:watch": "nyc mocha --watch --recursive -t 10000",
     "mocha": "mocha --recursive -t 10000",
     "nyc": "nyc mocha --recursive -t 10000",
-    "pkgbump": "node ./scripts/pkgbump.js",
-    "pkgstamp": "node ./scripts/pkgstamp.js"
+    "pkgcheck": "node ./scripts/pkgcheck.js",
+    "pkgstamp": "node ./scripts/pkgstamp.js",
+    "pkgbump": "node ./scripts/pkgbump.js && node ./scripts/pkgcheck.js --fix",
+    "pkgset": "node ./scripts/pkgset.js",
+    "depcheck": "node ./scripts/depcheck.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hyperledger/composer-concerto-tools.git"
+    "url": "https://github.com/accordproject/concerto-tools.git"
   },
   "keywords": [
     "concerto",
     "tools",
     "modeling"
   ],
-  "author": "Hyperledger Composer",
+  "author": "accordproject.org",
   "license": "Apache-2.0",
   "devDependencies": {
     "ajv": "6.5.4",
@@ -57,14 +60,14 @@
     "webpack-cli": "3.1.2"
   },
   "dependencies": {
-    "composer-concerto": "0.71.6",
+    "@accordproject/concerto": "0.80.0",
     "debug": "4.1.0",
     "mkdirp": "0.5.1",
     "yargs": "13.2.2"
   },
   "license-check-and-add-config": {
     "folder": "./lib",
-    "license": "LICENSE.txt",
+    "license": "HEADER",
     "exact_paths_method": "EXCLUDE",
     "exact_paths": [
       "api.txt",
@@ -73,7 +76,7 @@
       "index.d.ts",
       "./system",
       "./introspect/parser.js",
-      "LICENSE.txt",
+      "LICENSE",
       "node_modules",
       ".nyc-output",
       "out",
@@ -101,7 +104,7 @@
         }
       },
       "md": {
-        "file": "./markdown-license.txt"
+        "file": "./HEADER.md"
       }
     }
   },

@@ -15,8 +15,8 @@
 'use strict';
 
 const fs = require('fs');
-const FileWriter = require('composer-concerto').FileWriter;
-const ModelManager = require('composer-concerto').ModelManager;
+const FileWriter = require('@accordproject/concerto').FileWriter;
+const ModelManager = require('@accordproject/concerto').ModelManager;
 const LoopbackVisitor = require('../../../../lib/codegen/fromcto/loopback/loopbackvisitor');
 const path = require('path');
 

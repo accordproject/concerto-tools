@@ -38,8 +38,8 @@ npm config set registry https://registry.npmjs.org/
 npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
 
 # Set the GitHub deploy key we will use to publish.
-set-up-ssh --key "$encrypted_573c42e37d8c_key" \
-           --iv "$encrypted_573c42e37d8c_iv" \
+set-up-ssh --key "$encrypted_6a0b5bd5039d_key" \
+           --iv "$encrypted_6a0b5bd5039d_iv" \
            --path-encrypted-key ".travis/github_deploy_key.enc"
 
 # Change from HTTPS to SSH.

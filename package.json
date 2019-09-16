@@ -76,7 +76,7 @@
       "index.d.ts",
       "./system",
       "./introspect/parser.js",
-      "LICENSE.txt",
+      "LICENSE",
       "node_modules",
       ".nyc-output",
       "out",

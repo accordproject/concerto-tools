@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/concerto-tools",
-  "version": "0.61.1",
+  "version": "0.80.0",
   "description": "Tools for the Concerto Modeling Language",
   "engines": {
     "node": ">=8",
